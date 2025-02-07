@@ -1,0 +1,62 @@
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+
+const flashcards = [
+  { question: "What were Jerol Skinner’s key job accomplishments since the last review?", answer: "Gained clarity on NSU Online’s role, maintained high service levels, incorporated student success initiatives, and created Benchmark and Roadmap processes for new programs." },
+  { question: "What policies does Jerol Skinner want to see further defined?", answer: "Online student definitions and distance education policies specific to NSU." },
+  { question: "What steps does Jerol plan to take to improve performance?", answer: "Setting clear goals, using data-driven decisions, and pursuing training in strategic thinking." },
+  { question: "What leadership roles has Jerol Skinner taken on?", answer: "Co-leader for Connecting Minority Communities grant, Acting QM Coordinator, and NSU representative in COLE." },
+  { question: "What committees has Jerol participated in?", answer: "NSU Online Advisory Committee, University Technology Committee, Faculty Development, and Student Learning & Assessment." },
+  { question: "What are Jerol’s short-term career goals?", answer: "Build relationships for mentorship, improve communication skills, and develop confidence in faculty and administrator interactions." },
+  { question: "What are Jerol’s long-term career goals?", answer: "Learn about new educational technologies and their use in classrooms." },
+  { question: "How does Jerol plan to incorporate Service Excellence Values?", answer: "Use data-driven decision-making, build mutual respect in the workplace, mentor staff, and improve communication and responsiveness." },
+  { question: "What focus does Jerol have for communication and responsiveness?", answer: "Keeping service at the forefront, sharing knowledge and resources with all departments, and fostering collaboration." },
+  { question: "Did Jerol have any additional questions for the performance review meeting?", answer: "No, there were no further questions." }
+];
+
+export default function FlashcardApp() {
+  const [index, setIndex] = useState(0);
+  const [showAnswer, setShowAnswer] = useState(false);
+
+  const handleNext = () => {
+    setShowAnswer(false);
+    setIndex((prevIndex) => (prevIndex + 1) % flashcards.length);
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen p-4">
+      <motion.div
+        className="w-full max-w-lg"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Card className="p-6 text-center shadow-lg rounded-2xl">
+          <CardContent>
+            <h2 className="text-xl font-semibold">{flashcards[index].question}</h2>
+            {showAnswer && (
+              <motion.p
+                className="mt-4 text-lg text-gray-700"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                {flashcards[index].answer}
+              </motion.p>
+            )}
+          </CardContent>
+        </Card>
+        <div className="mt-6 flex space-x-4">
+          <Button onClick={() => setShowAnswer(!showAnswer)}>
+            {showAnswer ? "Hide Answer" : "Show Answer"}
+          </Button>
+          <Button onClick={handleNext} variant="secondary">
+            Next Question
+          </Button>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
